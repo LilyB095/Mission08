@@ -18,13 +18,15 @@ namespace Bookstore.Pages
         }
 
         public Basket basket { get; set; }
+        public string ReturnUrl { get; set; }
 
-        public void OnGet()
+        public void OnGet(string returnUrl)
         {
+            ReturnUrl = returnUrl ?? "/";
             basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
         }
 
-        public IActionResult OnPost(int BookId)
+        public IActionResult OnPost(int BookId, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == BookId);
 
@@ -34,7 +36,7 @@ namespace Bookstore.Pages
 
             HttpContext.Session.SetJson("basket", basket);
 
-            return RedirectToPage(basket);
+            return RedirectToPage(new { ReturnUrl = returnUrl });
 
         }
     }
