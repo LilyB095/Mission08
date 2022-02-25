@@ -10,7 +10,7 @@ namespace Bookstore.Models
         // Declare                                      Instantiate
         public List<BasketLineItem> Items { get; set; } = new List<BasketLineItem>();
 
-        public void AddItem (Book book, int qty)
+        public void AddItem (Book book, int qty, double price)
         {
             BasketLineItem line = Items
                 .Where(b => b.Book.BookId == book.BookId)
@@ -21,7 +21,8 @@ namespace Bookstore.Models
                 Items.Add(new BasketLineItem
                 {
                     Book = book,
-                    Quantity = qty
+                    Quantity = qty,
+                    Price = price
                 });
             }
             else
@@ -33,7 +34,7 @@ namespace Bookstore.Models
 
         public double CalculateTotal()
         {
-            double sum = Items.Sum(x => x.Quantity * 25);
+            double sum = Items.Sum(x => x.Quantity * x.Price);
 
             return sum;
         }
@@ -47,5 +48,7 @@ namespace Bookstore.Models
         public int LineID { get; set; }
         public Book Book { get; set; }
         public int Quantity { get; set; }
+
+        public double Price { get; set; }
     }
 }
