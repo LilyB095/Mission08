@@ -38,6 +38,10 @@ namespace Bookstore
 
             //enable razor pages
             services.AddRazorPages();
+
+            //Implement session
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +54,7 @@ namespace Bookstore
 
             // WE WANT ACCESS TO FILES IN WWWROOT FOLDER
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
